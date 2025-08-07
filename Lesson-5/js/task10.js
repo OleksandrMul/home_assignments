@@ -15,11 +15,9 @@ if (confirm('Почати тестування?')) {
         }
 
         let sumOddNumbers = 0
-        for (let i = firstNumber; i <= secondNumber; i++) {
+        for (let i = firstNumber; i <= secondNumber; i += 2) {
 
-            if (i % 2 !== 0) {
-                sumOddNumbers += i
-            }
+            sumOddNumbers += i
         }
 
         document.write(`<h2 style="color: green;">Sum of all odd numbers between ${firstNumber} and ${secondNumber} is ${sumOddNumbers}.</h2>`)
