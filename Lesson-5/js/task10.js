@@ -4,6 +4,7 @@ if (confirm('Почати тестування?')) {
 
     let firstNumber = parseFloat(prompt('Enter first number', 1))
     let secondNumber = parseFloat(prompt('Enter second number', 100))
+    let startNumber = firstNumber % 2 !== 0 ? firstNumber : firstNumber + 1
 
     if (isFinite(firstNumber) && isFinite(secondNumber)) {
 
@@ -15,7 +16,7 @@ if (confirm('Почати тестування?')) {
         }
 
         let sumOddNumbers = 0
-        for (let i = firstNumber; i <= secondNumber; i += 2) {
+        for (let i = startNumber; i <= secondNumber; i += 2) {
 
             sumOddNumbers += i
         }
