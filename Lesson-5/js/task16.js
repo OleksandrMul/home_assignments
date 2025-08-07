@@ -17,10 +17,10 @@ if (confirm('Почати тестування?')) {
             if (!isFinite(storeProfit)) break exit
 
             weekAmount += storeProfit
-            totalAmount += storeProfit
         }
 
-        
+        totalAmount += weekAmount
+
         alert(`Profit amount for ${numWeek} week is ${(weekAmount).toFixed(2)}$.`)
         document.write(`<h2 style="color: green;">Profit amount for ${numWeek} week is ${(weekAmount).toFixed(2)}$</h2>`)
     }
