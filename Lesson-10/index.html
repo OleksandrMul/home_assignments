@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ДЗ №10</title>
+    </head>
+    <body>
+    </body>
+    <script>
+        // Задача. Дано історію цін на цінні папери за деякий період (згенерувати від 1 до 10000)
+        function generateRandomNumber(min, max) {
+            return (min + Math.floor(Math.random() * (max - min + 1)))
+        }
+
+        function fillArray(min, max, months) {
+
+            let resultArray = []
+            for (let i = 0; i < months; i++) {
+                resultArray.push(generateRandomNumber(min, max))
+            }
+
+            return resultArray
+        }
+
+        const MIN_VALUE = 1
+        const MAX_VALUE = 10000
+        const MONTHS = 12
+
+        const pricesHistory = fillArray(MIN_VALUE, MAX_VALUE, MONTHS)
+        console.log(`pricesHistory = ${pricesHistory}`);
+
+        // 1)Сформувати новий масив, у якому є тільки ті, що більші за 1000 грн.
+        const overThousandUAH = pricesHistory.filter((price) => price > 1000)
+        console.log(`overThousandUAH = ${overThousandUAH}`);
+
+        // 2)Сформувати новий масив, у якому є номери тільки тих, що більші за 1000 грн.
+        const indexesOverThousandUAH = pricesHistory.reduce((newArr, price, index) => {
+            if (price > 1000) newArr.push(index)
+            return newArr
+        }, [])
+        console.log(`indexesOverThousandUAH = ${indexesOverThousandUAH}`);
+        
+        // 3)Сформувати список з тих цін, які більші за попереднє значення
+        const pricesGreaterThanPrevious = pricesHistory.reduce((newArr, price, index, baseArr) => {
+            if (index > 0 && price > baseArr[index - 1]) newArr.push(price)
+            return newArr
+        }, [])
+        console.log(`pricesGreaterThanPrevious = ${pricesGreaterThanPrevious}`);
+
+        // 4)Сформувати новий масив, що міститиме значення цін у відсотках стосовно максимального
+        const maxPrice = pricesHistory.reduce((prevMaxPrice, price) => (price > prevMaxPrice ? price : prevMaxPrice))
+        const pricePercentOfMax = pricesHistory.map((price) => Math.floor((price / maxPrice) * 100))
+        console.log(`pricePercentOfMax = ${pricePercentOfMax}`);
+
+        // 5)Підрахувати кількість змін цін
+        const numberPriceChanges = pricesHistory.reduce((numChanges, price, index, baseArr) => {
+            if (index > 0 && price !== baseArr[index - 1]) return numChanges + 1
+            return numChanges
+        }, 0)
+        console.log(`numberPriceChanges = ${numberPriceChanges}`);
+
+        // 6)Визначити, чи є ціна, що менше 1000
+        const isPriceLessThousand = pricesHistory.some((price) => price < 1000)
+        console.log(`isPriceLessThousand = ${isPriceLessThousand}`);
+
+        // 7)Визначати, чи усі ціни більше за 1000
+        const isEveryPricesGreaterThousand = pricesHistory.every((price) => price > 1000)
+        console.log(`isEveryPricesGreaterThousand = ${isEveryPricesGreaterThousand}`);
+
+        // 8)Підрахувати кількість цін, що більше за 1000
+        const numberPricesGreaterThousand = pricesHistory.reduce((count, price) => price > 1000 ? count + 1 : count, 0)
+        console.log(`numberPricesGreaterThousand = ${numberPricesGreaterThousand}`);
+
+        // 9)Підрахувати суму цін, що більше за 1000
+        const sumPricesGreaterThousand = pricesHistory.reduce((sum, price) => price > 1000 ? sum + price : sum, 0)
+        console.log(`sumPricesGreaterThousand = ${sumPricesGreaterThousand}`);
+        
+        // 10)Знайти першу ціну, що більше за 1000
+        const firstPriceGreaterThousand = pricesHistory.find((price) => price > 1000)
+        console.log(`firstPriceGreaterThousand = ${firstPriceGreaterThousand}`);
+
+        // 11)Знайти індекс першої ціни, що більше за 1000
+        const indexFirstPriceGreaterThousand = pricesHistory.findIndex((price) => price > 1000)
+        console.log(`indexFirstPriceGreaterThousand = ${indexFirstPriceGreaterThousand}`);
+
+        // 12)Знайти останню ціну, що більше за 1000
+        const lastPriceGreaterThousand = pricesHistory.findLast((price) => price > 1000)
+        console.log(`lastPriceGreaterThousand = ${lastPriceGreaterThousand}`);
+
+        // 13)Знайти індекс останньої ціни, що більше за 1000
+        const indexLastPriceGreaterThousand = pricesHistory.findLastIndex((price) => price > 1000)
+        console.log(`indexLastPriceGreaterThousand = ${indexLastPriceGreaterThousand}`);
+    </script>
+</html>
