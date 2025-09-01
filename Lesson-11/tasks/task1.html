@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Задача 1</title>
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
+    <body>
+        <h1>Задача 1</h1>
+        <h3>
+            Знайти суми елементів у вказаній області (зафарбована область
+            охоплює відповідну половину рядків і стовпців)
+        </h3>
+    </body>
+    <script>
+        if (confirm('Почати тестування?')) {
+
+            function printValue(value, message) {
+                document.write(`<h2>${message} = ${value}</h2><br>`)
+            }
+
+            const elements = [
+                [1, 2, 5, 2, 1, 2],
+                [1, 2, 1, 2, 1, 2],
+                [1, 1, 5, 2, 1, 2],
+                [1, 6, 5, 2, 1, 2],
+            ]
+
+            // 1. номери рядків від 0 до половини, стовпці від 0 до половини
+            const topLeftIndexes = []
+            for (let rowNumber = 0; rowNumber < elements.length / 2; rowNumber++) {
+                for (let columnNumber = 0; columnNumber < elements[0].length / 2; columnNumber++) {
+
+                    topLeftIndexes.push([rowNumber, columnNumber])
+                }
+            }
+            console.log('topLeftIndexes', topLeftIndexes);
+            printValue(topLeftIndexes, 'Top left indexes')
+
+            // 2. номери рядків від 0 до половини, стовпці від половини до кінця
+            const topRightIndexes = []
+            for (let rowNumber = 0; rowNumber < elements.length / 2; rowNumber++) {
+                for (let columnNumber = elements[0].length / 2; columnNumber < elements[0].length; columnNumber++) {
+
+                    topRightIndexes.push([rowNumber, columnNumber])
+                }
+            }
+            console.log('topRightIndexes', topRightIndexes );
+            printValue(topRightIndexes, 'Top right indexes')
+
+            // 3. номери рядків (від половини до кінця, стовпці від 0 до половини
+            const bottomLeftIndexes = []
+            for (let rowNumber = elements.length / 2; rowNumber < elements.length; rowNumber++) {
+                for (let columnNumber = 0; columnNumber < elements[0].length / 2; columnNumber++) {
+
+                    bottomLeftIndexes.push([rowNumber, columnNumber])
+                }
+            }
+            console.log('bottomLeftIndexes', bottomLeftIndexes );
+            printValue(bottomLeftIndexes, 'Bottom left indexes')
+
+            // 4. номери рядків від половини до кінця , стовпці від половини до кінця
+            const bottomRightIndexes = []
+            for (let rowNumber = elements.length / 2; rowNumber < elements.length; rowNumber++) {
+                for (let columnNumber = elements[0].length / 2; columnNumber < elements[0].length; columnNumber++) {
+
+                    bottomRightIndexes.push([rowNumber, columnNumber])
+                }
+            }
+            console.log('bottomRightIndexes', bottomRightIndexes);
+            printValue(bottomRightIndexes, 'Bottom right indexes')
+
+            // 5. Суму парних рядків
+            let sumEvenRows = 0
+            for (let rowNumber = 0; rowNumber < elements.length; rowNumber+=2) {
+                for (let columnNumber = 0; columnNumber < elements[rowNumber].length; columnNumber++) {
+
+                    sumEvenRows += elements[rowNumber][columnNumber]
+                }
+            }
+            console.log('Sum of even rows', sumEvenRows);
+            printValue(sumEvenRows, 'Sum of even rows')
+
+            // 6. Суму непарних стовпців
+            let sumOddColumns = 0
+            for (let rowNumber = 0; rowNumber < elements.length; rowNumber++) {
+                for (let columnNumber = 1; columnNumber < elements[rowNumber].length; columnNumber+=2) {
+
+                    sumOddColumns += elements[rowNumber][columnNumber]
+                }
+            }
+            console.log('Sum of odd columns', sumOddColumns);
+            printValue(sumOddColumns, 'Sum of odd columns')
+
+            // 7. У парних рядках – непарні стовпці, у непарних – парні.
+            let sumEvenRowsOddColumns = 0
+            let sumOddRowsEvenColumns = 0
+
+            for (let rowNumber = 0; rowNumber < elements.length; rowNumber++) {
+                for (let columnNumber = 0; columnNumber < elements[rowNumber].length; columnNumber++) {
+
+                    if (rowNumber % 2 === 0 && columnNumber % 2 === 1) {
+                        sumEvenRowsOddColumns += elements[rowNumber][columnNumber]
+                    } else if (rowNumber % 2 === 1 && columnNumber % 2 === 0) {
+                        sumOddRowsEvenColumns += elements[rowNumber][columnNumber]
+                    }
+                }
+            }
+
+            console.log('In even rows – odd columns', sumEvenRowsOddColumns);
+            console.log('In odd rows – even columns', sumOddRowsEvenColumns);
+
+            printValue(sumEvenRowsOddColumns, 'In even rows – odd columns')
+            printValue(sumOddRowsEvenColumns, 'In odd rows – even columns')
+
+        }
+    </script>
+</html>

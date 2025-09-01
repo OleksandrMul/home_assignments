@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Задача 3</title>
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
+    <body>
+        <h1>Задача 3</h1>
+        <h3>
+            Морський бій. Випадковим чином на двовимірному полі розміром 6*6
+            розташовується 5 кораблів. Користувач стріляє вказуючи координати.
+            Гра продовжується поки не потоплено усі кораблі або у користувача не
+            закінчаться снаряди.
+        </h3>
+    </body>
+    <script>
+        if (confirm('Почати тестування?')) {
+
+            function printValue(value, message) {
+                document.write(`<h2>${message} = ${value}</h2><br>`)
+            }
+
+            function startGame(battlefield, numberShips, shells) {
+
+                let sunkenShips = 0
+                let shellsUsed = 0
+
+                const rows = battlefield.length
+                const columns = battlefield[0].length
+
+                while (sunkenShips < numberShips && shellsUsed < shells) {
+
+                    const userInput = prompt(`Enter coordinates to shoot (row,col) from 0 to ${rows - 1} and 0 to ${columns - 1}.\nShots left: ${shells - shellsUsed}`);
+                    
+                    if (!userInput) continue;
+
+                    const [row, col] = userInput.split(',').map(Number);
+
+                    if (isFinite(row) && isFinite(col) &&
+                        row >= 0 && row < rows &&
+                        col >= 0 && col < columns
+                    ) {
+
+                        shellsUsed += 1
+
+                        if (battlefield[row][col] === 1) {
+
+                            sunkenShips += 1
+                            battlefield[row][col] = -1
+                            alert(`Congratulations! You have sunk ${sunkenShips} ship! More ships to go is ${numberShips - sunkenShips}!`)
+                        } else if (battlefield[row][col] === 0) {
+
+                            alert('Missed... Try again!')
+                        } else {
+
+                            alert('You already shot here!')
+                        }
+
+                    } else {
+                        alert(`Error: Enter valid coordinates!`);
+                    }
+                }
+
+
+                if (sunkenShips === numberShips) {
+                    printValue(sunkenShips, 'Congratulations, you won, the number of ships sunk')
+                } else {
+                    printValue(sunkenShips, 'Game over! You used all your shells. Ships sunk: ')
+                }
+                
+            }
+
+            function generateRandomNumber(min, max) {
+
+                return (min + Math.floor(Math.random() * (max - min + 1)))
+            }
+
+            function placeShips(battlefield, numberShips) {
+
+                let placedShips = 0
+                while (placedShips < numberShips) {
+
+                    const row = generateRandomNumber(0, battlefield.length - 1)
+                    const column = generateRandomNumber(0, battlefield[0].length - 1)
+
+                    if (battlefield[row][column] === 0) {
+
+                        battlefield[row][column] = 1
+                        placedShips += 1
+                    }
+                }
+            }
+
+            function getBattleField(rows, columns) {
+                return Array.from({ length: rows }, () => Array(columns).fill(0));
+            }
+
+            function initGame(numberRows, numberColumns, numberShips, shells) {
+
+                const battlefield = getBattleField(numberRows, numberColumns)
+
+                placeShips(battlefield, numberShips)
+                startGame(battlefield, numberShips, shells)
+            }
+
+            const numberOfRows = 6
+            const numberOfColumns = 6
+            const numberOfShips = 5
+            const maxNumberShells = 10
+
+            initGame(numberOfRows, numberOfColumns, numberOfShips, maxNumberShells)
+        }
+    </script>
+</html>

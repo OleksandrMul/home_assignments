@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Задача 2</title>
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
+    <body>
+        <h1>Задача 2</h1>
+        <h3>
+            Дано інформацію про прибуток К магазинів протягом тижня. Знайти :
+        </h3>
+    </body>
+    <script>
+        if (confirm('Почати тестування?')) {
+
+            function printValue(value, message) {
+                document.write(`<h2>${message} = ${value}</h2><br>`)
+            }
+
+            const profits = [
+                [345, 512, 410, 689, 275, 400, 80],
+                [220, 330, 450, 510, 610, 720, 810],
+                [100, 200, 300, 400, 500, 70, 700],
+                [450, 320, 210, 150, 330, 220, 110],
+                [600, 700, 800, 900, 650, 750, 850]
+            ]
+
+            // 1. загальний прибуток кожного масиву за тиждень;
+            const totalProfitPerWeek = profits.map((profitWeek) => profitWeek.reduce((prevSum, el) => prevSum + el))
+            console.log('Total profit per week', totalProfitPerWeek);
+            printValue(totalProfitPerWeek, 'Total profit per week')
+
+            // 2. загальний прибуток усіх магазинів по дням (загальний прибуток усіх магазинів за понеділок, за вівторок, і т.д.);
+            const totalProfitPerDays = []
+            for (let day = 0; day < profits[0].length; day++) {
+
+                let sum = 0
+                for (let week = 0; week < profits.length; week++) {
+                    sum += profits[week][day]
+                }
+
+                totalProfitPerDays.push(sum)
+            }
+            console.log('Total profit per days', totalProfitPerDays);
+            printValue(totalProfitPerDays, 'Total profit per days')
+
+            // 3. загальний прибуток за робочі дні
+            let totalProfitForWorkingDays = 0
+            for (let profitWeek = 0; profitWeek < profits.length; profitWeek++) {
+                for (let day = 0; day < 5; day++) {
+
+                    totalProfitForWorkingDays += profits[profitWeek][day]
+                }
+            }
+            console.log('Total profit for working days', totalProfitForWorkingDays);
+            printValue(totalProfitForWorkingDays, 'Total profit for working days')
+
+            // 4. загальний прибуток за вихідні дні
+            let totalProfitForTheWeekend = 0
+            for (let profitWeek = 0; profitWeek < profits.length; profitWeek++) {
+                for (let day = 5; day < profits[profitWeek].length; day++) {
+
+                    totalProfitForTheWeekend += profits[profitWeek][day]
+                }
+            }
+            console.log('Total profit for the weekend', totalProfitForTheWeekend);
+            printValue(totalProfitForTheWeekend, 'Total profit for the weekend')
+
+            // 5. максимальний прибуток за середу
+            let maximumProfitForWednesday = -Infinity
+            for (const profitWeek of profits) {
+                let profitWednesday = profitWeek[2]
+
+                if (profitWednesday > maximumProfitForWednesday) maximumProfitForWednesday = profitWednesday
+            }
+            console.log('Maximum profit for the wednesday', maximumProfitForWednesday)
+            printValue(maximumProfitForWednesday, 'Maximum profit for the wednesday')
+
+            // 6. сформувати загальний список (одновимірний масив) зі значенням, які що більші за 200
+            const profitsGrThan200 = profits.flat(Infinity).filter((profit) => profit > 200)
+            console.log('A general list with values greater than 200', profitsGrThan200);
+            printValue(profitsGrThan200, 'A general list with values greater than 200')
+    
+            // 7. відсортувати кожен тиждень за зростанням
+            const sortedProfitsEachWeek = profits.map((profit) => [...profit].sort((a, b) => a - b))
+            console.log('Sorted values ​​for each week in ascending order', sortedProfitsEachWeek);
+            printValue(sortedProfitsEachWeek, 'Sorted values ​​for each week in ascending order')
+
+            // 8. відсортувати тижні (рядки) за спаданням максимального елементи у цьому тижні (рядку), 
+            // тобто при порівнянні рядків потрібно порівнювати максимальні елементи у кожному з цих рядків
+            const weeksSortedByMax = [...profits].sort((a, b) => {
+                const maxA = Math.max(...a);
+                const maxB = Math.max(...b);
+                return maxB - maxA;
+            });
+            console.log('Sorted weeks in descending order of maximum element in this week', weeksSortedByMax)
+            printValue(weeksSortedByMax, 'Sorted weeks in descending order of maximum element in this week')
+
+            // 9. упорядкувати тижні (рядки) за спаданням суми елементів у рядку 
+            // (тобто при порівнянні двох рядків треба знайти суму кожного з рядків і порівнювати ці суми, 
+            // на основі цих сум буде зрозуміло, який з елементів повинен іти раніше).
+            const weeksSortedBySum = [...profits].sort((a, b) => {
+                const sumA = a.reduce((prevSum, el) => prevSum + el)
+                const sumB = b.reduce((prevSum, el) => prevSum + el)
+                return sumB - sumA;
+            });
+            console.log('Weeks sorted by decreasing sum of elements in the row', weeksSortedBySum);
+            printValue(weeksSortedBySum, 'Weeks sorted by decreasing sum of elements in the row')
+
+        }
+    </script>
+</html>
