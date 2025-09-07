@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Задача 2</title>
         <link rel="stylesheet" href="../css/style.css">
+        <script src="../javascript/task2.js"></script>
     </head>
     <body>
         <h1>Задача 2</h1>
@@ -13,30 +14,4 @@
             приклад з додавання двох цифр і робиться перевірка.
         </h3>
     </body>
-    <script>
-        if (confirm('Почати тестування?')) {
-            const MIN_NUMBER = 1
-            const MAX_NUMBER = 9
-
-            function generateRandomNumber(min, max) {
-                return (min + Math.floor(Math.random() * (max - min + 1)))
-            }
-
-            function giveRandomExample(minNumber, maxNumber) {
-                const num1 = generateRandomNumber(minNumber,maxNumber)
-                const num2 = generateRandomNumber(minNumber,maxNumber)
-
-                const resSum = num1 + num2
-                const userInput = parseInt(prompt(`${num1} + ${num2} = ?`))
-
-                if (isNaN(userInput)) alert('Please write a number!')
-                else if (userInput === resSum) alert('Ok!')
-                else alert('Not ok...')
-            }
-
-            setInterval(() => {
-                giveRandomExample(MIN_NUMBER, MAX_NUMBER)
-            }, 10000)
-        }
-    </script>
 </html>
