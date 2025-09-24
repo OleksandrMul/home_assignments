@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Задача 1</title>
+        <link rel="stylesheet" href="../css/style.css">
+        <script src="../javascript/task1.js"></script>
+    </head>
+    <body>
+        <h1>Задача 1</h1>
+        <h2>
+            Розробити калькулятор
+        </h2>
+        <div class="calculator">
+            <label>
+                First number
+                <input type="number" value="2" id="num1">
+            </label>
+            <label>
+                Second number
+                <input type="number" value="3" id="num2">
+            </label>
+            <div class="calculator__actions actions-calculator">
+                <button id="add-btn" class="actions-calculator__btn"
+                    type="button">Додати</button>
+                <button id="sub-btn" class="actions-calculator__btn"
+                    type="button">Відняти</button>
+                <button id="mul-btn" class="actions-calculator__btn"
+                    type="button">Помножити</button>
+                <button id="div-btn" class="actions-calculator__btn"
+                    type="button">Поділити</button>
+            </div>
+            <label>
+                Результат
+                <input readonly type="number" value="0" id="res">
+            </label>
+            <span id="error"></span>
+        </div>
+
+    </body>
+</html>

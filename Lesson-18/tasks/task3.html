@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Задача 3</title>
+        <link rel="stylesheet" href="../css/style.css">
+        <script src="../javascript/task3.js"></script>
+    </head>
+    <body>
+        <h1>Задача 3</h1>
+        <h2>
+            Подорож складається з 3 етапів. На кожному етапі користувач
+            може вибрати один з видів транспорту (авто, автобус, літак -
+            випадаючий список), харчування (сніданок, обід, вечеря –
+            checkbоx) та одного з 3-х гідів(використати - radio
+            buttons). Ціни визначте самі. Підрахувати загальну вартість.
+        </h2>
+        <div class="trip">
+            <div class="trip__row">
+                <h3 class="trip__title">Journey stage number 1 (type of
+                    transport):</h3>
+                <select class="type-transport" id="typeTransport">
+                    <option value="2500">Car - 2500$</option>
+                    <option selected value="750">Bus - 750$</option>
+                    <option value="1200">Plane -1200$</option>
+                </select>
+            </div>
+            <div class="trip__row">
+                <h3 class="trip__title">Journey stage number 2 (food):</h3>
+                <div class="trip__inner">
+                    <label>
+                        Breakfast - 30$
+                        <input checked class="food" type="checkbox" value="30" name="breakfast" id="1">
+                    </label>
+                    <label>
+                        Lunch - 45$
+                        <input class="food" type="checkbox" value="45" name="lunch" id="2">
+                    </label>
+                    <label>
+                        Dinner - 55$
+                        <input class="food" type="checkbox" value="55" name="dinner" id="3">
+                    </label>
+                </div>
+            </div>
+            <div class="trip__row">
+                <h3 class="trip__title">Journey stage number 3 (tour guide):</h3>
+                <div class="trip__inner">
+                    <div class="trip__line">
+                        <label for="tour-guide-1">Olga - 300$</label>
+                        <input class="tour-guide" type="radio" value="300" name="guide" id="tour-guide-1">
+                    </div>
+                    <div class="trip__line">
+                        <label for="tour-guide-2">Ivan - 55.99$</label>
+                        <input checked class="tour-guide" type="radio" value="55.99" name="guide" id="tour-guide-2">
+                    </div>
+                    <div class="trip__line">
+                        <label for="tour-guide-3">Alice - 550$</label>
+                        <input class="tour-guide" type="radio" value="550" name="guide" id="tour-guide-3">
+                    </div>
+                </div>
+            </div>
+            <button id="trip-btn" type="button">Get total cost!</button>
+        </div>
+    </body>
+</html>
