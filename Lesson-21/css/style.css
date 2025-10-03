@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+@import url("icon-fonts.css");
+
+@import url("reset.css");
+@import url("components.css");
+
+body {
+	font-family: "Poppins", sans-serif;
+	color: #1a1a1a;
+}
+
+[class*="__container"] {
+	max-width: 1350px;
+	margin: 0 auto;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+@keyframes draw {
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	overflow: clip;
+	min-height: 100%;
+}
+
+.wrapper > main {
+	flex-grow: 1;
+}
+
+.products__container {
+	padding-block: 80px;
+	display: grid;
+	gap: 35px;
+	font-size: 22px;
+}
+
+.time-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
