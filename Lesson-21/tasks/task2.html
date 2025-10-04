@@ -10,8 +10,20 @@
     <body>
         <div class="wrapper">
             <main class="page">
-                <section class="page__products products">
-                    <div class="products__container">
+                <section class="page__study study">
+                    <div class="study__container">
+                        <form class="study__form form-study">
+                            <div class="form-study__row">
+							    <label class="form-study__label label" for="input-month">Student's month of study</label>
+							    <input class="form-study__input input input-month" min="1" max="12" id="input-month" required autocomplete="off" type="number" placeholder="Month">
+                            </div>
+                            <div class="form-study__row">
+							    <label class="form-study__label label" for="input-assessment">Student assessment</label>
+							    <input class="form-study__input input input-assessment" min="1" max="100" id="input-assessment" required autocomplete="off" type="number" placeholder="Assessment">
+                            </div>
+                            <button type="submit" class="form-study__btn button">Check</button>
+                        </form>
+                        <div class="study__content"></div>
                     </div>
                 </section>
             </main>

@@ -1,172 +1,173 @@
 "use strict";
-/** Дано список спортсменів. Потрібно сформувати список тих, які
-    будуть брати участь у змаганні. При цьому є два стовпці. В
-    одному відображені всі спортсмени, в іншому – список тих,
-    хто був вибраний. При натисканні на зелену стрілку спортсмен
-    переміщається у список для змагань. При натисканні на
-    червону стрілку спортсмен переміщається у загальний список.
+/** 
+ * Користувач задає місяць навчання учня (перевіряти чи є числом, чи від 1 до 12, чи не канікули) 
+ * та оцінку (перевіряти чи є числом, чи від 1 до 100). 
+   Вивести чи зможе він виправити оцінку (якщо оцінка погана і це не останній місяць у семестрі) . 
+   Обробку усіх помилок зробити з використанням відповідних класів.
  */
 
-let generalList = [
-    {
-        id: 1,
-        name: 'John Depp'
-    },
-    {
-        id: 2,
-        name: 'Sara Wik'
-    },
-    {
-        id: 3,
-        name: 'Den Miro'
-    },
-    {
-        id: 4,
-        name: 'Alan Woo'
-    },
-    {
-        id: 5,
-        name: 'Alex Mul'
-    },
-]
-let selectedList = []
+//------------------------------------------------
+// Custom Errors class exceptions ----------------
+//------------------------------------------------
+class IsNotNumberError extends Error {
+   constructor() {
+      super()
+      this.message = 'Must be a number!'
+      this.name = 'IsNotNumberError'
+   }
+}
+
+class IsTooLowMonthNumberError extends Error {
+   constructor(currentNumber) {
+      super()
+      this.currentNumber = currentNumber
+      this.message = 'The month number must be greater than or equal to 1!'
+      this.name = 'IsTooLowMonthNumberError'
+   }
+}
+
+class IsTooLowAssessmentNumberError extends Error {
+   constructor(currentNumber) {
+      super()
+      this.currentNumber = currentNumber
+      this.message = 'The assessment number must be greater than or equal to 1!'
+      this.name = 'IsTooLowAssessmentNumberError'
+   }
+}
+
+class IsTooHighMonthNumberError extends Error {
+   constructor(currentNumber) {
+      super()
+      this.currentNumber = currentNumber
+      this.message = 'The month number must be less than or equal to 12!'
+      this.name = 'IsTooHighMonthNumberError'
+   }
+}
+
+class IsTooHighAssessmentNumberError extends Error {
+   constructor(currentNumber) {
+      super()
+      this.currentNumber = currentNumber
+      this.message = 'The assessment number must be less than or equal to 100!'
+      this.name = 'IsTooHighAssessmentNumberError'
+   }
+}
+
+class IsVacationMonthNumberError extends Error {
+   constructor(currentNumber) {
+      super()
+      this.currentNumber = currentNumber
+      this.message = 'Summer vacation months (June, July, August) are not part of the study semester!'
+      this.name = 'IsVacationMonthNumberError'
+   }
+}
+
+class IsLastMonthNumberError extends Error {
+   constructor(currentNumber) {
+      super()
+      this.currentNumber = currentNumber
+      this.message = 'This is the last month of the semester!'
+      this.name = 'IsLastMonthNumberError'
+   }
+}
+//------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
 /**
- * Get list markup
+ * Shows an error message in both the console and on the web page,
+ * and resets a specific input field in the form.
  */
-function getListMarkup(listItems, parentLink) {
-
-    if (listItems.length > 0) {
-
-        const ulList = document.createElement('ul')
-        ulList.classList.add('competition__list')
-
-        for (const item of listItems) {
-
-            const listItem = document.createElement('li')
-            listItem.setAttribute('id', item.id)
-            listItem.classList.add('competition__item')
-
-            const participantName = document.createElement('h3')
-            participantName.classList.add('competition__name')
-            participantName.innerText = item.name
-
-            const btn = document.createElement('button')
-            btn.setAttribute('type', 'button')
-
-            if (parentLink.getAttribute('id') === 'general') {
-                btn.className = 'competition__button link'
-            }
-            if (parentLink.getAttribute('id') === 'selected') {
-                btn.className = 'competition__button link link--remove'
-            }
-
-            listItem.append(participantName)
-            listItem.append(btn)
-            ulList.append(listItem)
-        }
-
-        return ulList
-    }
+function showError(err, cnt, fieldSelector, resetValue, formElement) {
+   console.log(err.message)
+   document.querySelector(cnt).innerText = err.message
+   formElement.querySelector(fieldSelector).value = resetValue
 }
 
 /**
- * Remove element from DOM at the Front-End part.
+ * Return boolean value true or false,
+ * depends on student assessment and month of study.
  */
-function removeFromFontEnd(e) {
-    e.target.parentElement.remove()
+function isAssessmentBeCorrected(month, assessment) {
+
+   const BAD_ASSESSMENT = 60
+   const LAST_MONTH_AUTUMN_SEMESTER = 12
+   const LAST_MONTH_SPRING_SEMESTER = 5
+
+   if (month === LAST_MONTH_AUTUMN_SEMESTER || month === LAST_MONTH_SPRING_SEMESTER) throw new IsLastMonthNumberError(month)
+
+   return assessment <= BAD_ASSESSMENT
 }
 
-/**
- * Remove object from DB (general list),
- * and return new updated list with removed el.
- */
-function removeFromDB(dbList, id) {
-    const removedParticipant = dbList.filter((el) => el.id === id)
-    const updatedList = dbList.filter((el) => el.id !== id)
+function studyFormHandler(e) {
+   e.preventDefault()
 
-    return [removedParticipant, updatedList]
-}
+   const form = e.target
+   try {
+      document.querySelector('.study__content').innerText = ''
 
-/**
- * Add object to DB (selected list),
- */
-function addToDB(objItem, list) {
-    list.push(objItem)
-}
+      let inputMonth = form.querySelector('.input-month')
+      let inputAssessment = form.querySelector('.input-assessment')
 
-/**
- * Remove exist element from DOM by CSS selector
- */
-function removeIfExists(selectedContainer, selector) {
-    if (selectedContainer.querySelector(selector)) {
-        selectedContainer.querySelector(selector).remove()
-    }
-}
+      let inputMonthValue = parseFloat(inputMonth.value)
+      let inputAssessmentValue = parseFloat(inputAssessment.value)
 
-/**
- * Add element to DOM at the Front-End part.
- */
-function addToFrontEnd(list, selector, selectorList) {
-    const container = document.getElementById(selector)
-    if (container) {
-        removeIfExists(container, selectorList)
-        drawList(container, list)
-    }
-}
+      if (isNaN(inputMonthValue) || isNaN(inputAssessmentValue)) throw new IsNotNumberError()
+      if (inputMonthValue < 1) throw new IsTooLowMonthNumberError(inputMonthValue)
+      if (inputAssessmentValue < 1) throw new IsTooLowAssessmentNumberError(inputAssessmentValue)
+      if (inputMonthValue > 12) throw new IsTooHighMonthNumberError(inputMonthValue)
+      if (inputAssessmentValue > 100) throw new IsTooHighAssessmentNumberError(inputAssessmentValue)
+      if (inputMonthValue === 6 || inputMonthValue === 7 || inputMonthValue === 8) throw new IsVacationMonthNumberError(inputMonthValue)
 
-/**
- * Move participant between lists.
- */
-function moveParticipant(e, fromList, toList, fromContainerId, toContainerId) {
+      const isCorrect = isAssessmentBeCorrected(inputMonthValue, inputAssessmentValue)
+      if (isCorrect) {
 
-    const clickedBtn = e.target.closest('.competition__button')
-    if (clickedBtn) {
+         document.querySelector('.study__content').innerText = `Your assessment is bad (${inputAssessmentValue})! Yes you can change it! You should!!!`
+      } else {
 
-        const item = e.target.closest('.competition__item')
-        if (item) {
+         document.querySelector('.study__content').innerText = `Congrats! You have a good grade (${inputAssessmentValue}), and there is no point in changing it =)`
+      }
 
-            const id = parseInt(item.getAttribute('id'))
+   } catch (err) {
 
-            removeFromFontEnd(e)
-            const [removedParticipant, updatedList] = removeFromDB(fromList, id)
+      if (err instanceof IsNotNumberError) {
 
-            if (fromContainerId === 'general') {
-                generalList = [...updatedList]
-                addToDB(removedParticipant[0], selectedList)
-            } else {
-                selectedList = [...updatedList]
-                addToDB(removedParticipant[0], generalList)
-            }
+         showError(err, '.study__content', '.input-month', 1, form)
+         showError(err, '.study__content', '.input-assessment', 1, form)
 
-            addToFrontEnd(toList, toContainerId, '.competition__list')
-        }
-    }
-}
+      } else if (err instanceof IsTooLowMonthNumberError) {
 
-/**
- * Draw list at the Front-end part.
- */
-function drawList(parentLink, listItems) {
-    parentLink.append(getListMarkup(listItems, parentLink))
+         showError(err, '.study__content', '.input-month', 1, form)
+
+      } else if (err instanceof IsTooLowAssessmentNumberError) {
+
+         showError(err, '.study__content', '.input-assessment', 1, form)
+
+      } else if (err instanceof IsTooHighMonthNumberError) {
+
+         showError(err, '.study__content', '.input-month', 12, form)
+
+      } else if (err instanceof IsTooHighAssessmentNumberError) {
+
+         showError(err, '.study__content', '.input-assessment', 100, form)
+
+      } else if (err instanceof IsVacationMonthNumberError) {
+
+         showError(err, '.study__content', '.input-month', 1, form)
+
+      } else if (err instanceof IsLastMonthNumberError) {
+
+         showError(err, '.study__content', '.input-month', 1, form)
+
+      } else console.log(err.message)
+   }
 }
 
 window.onload = function () {
 
-    const generalContainer = document.getElementById('general')
-    const selectedContainer = document.getElementById('selected')
-
-    if (generalContainer) {
-        drawList(generalContainer, generalList)
-        generalContainer.addEventListener('click', function (e) {
-            moveParticipant(e, generalList, selectedList, 'general', 'selected');
-        });
-    }
-
-    if (selectedContainer) {
-        selectedContainer.addEventListener('click', function (e) {
-            moveParticipant(e, selectedList, generalList, 'selected', 'general');
-        });
-    }
+   const form = document.querySelector('.form-study')
+   if (form) {
+      form.onsubmit = studyFormHandler
+   }
 };
 
