@@ -63,6 +63,6 @@ export class DogCard extends Component {
   handleClick() {
     const breed = this.dogData.breed || 'mixed'
     const imageUrl = encodeURIComponent(this.dogData.message)
-    window.location.href = `/Lesson-24/dog-detail.html?breed=${breed}&image=${imageUrl}`
+    window.location.href = `/dog-detail.html?breed=${breed}&image=${imageUrl}`
   }
 }
