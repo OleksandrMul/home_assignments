@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Detail</title>
+    <link rel="stylesheet" href="./css/style.css">
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <div class="header__container">
+          <a href="tasks/task1.html" class="header__logo">Dogs</a>
+          <div class="header__menu menu">
+            <nav class="menu__body">
+              <ul class="menu__list">
+                <li class="menu__item"><a href="tasks/task1.html"
+                    class="menu__link">Back to home</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="header__actions">
+            <div class="theme">
+              <button type="button" class="theme__change"></button>
+              <button type="button" class="theme__reset"></button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="page">
+        <section class="page__dog dog">
+          <div class="dog__container">
+            <h1 class="dog__title title title--medium">Dog Detail</h1>
+            <div class="loading" id="loading"></div>
+            <div class="dog__body">
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer class="footer">
+        <div class="footer__container">
+        </div>
+      </footer>
+    </div>
+    <script type="module" src="javascript/dog-detail.js"></script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Задача 1</title>
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
+    <body>
+		<div class="wrapper">
+			<header class="header">
+				<div class="header__container">
+					<a href="#" data-goto=".hero" class="header__logo">Dogs</a>
+					<div class="header__menu menu">
+						<nav class="menu__body">
+							<ul class="menu__list">
+								<li class="menu__item"><a data-goto=".dogs" href="#" class="menu__link">All dogs</a></li>
+							</ul>
+						</nav>
+					</div>
+					<div class="header__actions">
+						<div class="theme">
+							<button type="button" class="theme__change"></button>
+							<button type="button" class="theme__reset"></button>
+						</div>
+					</div>
+				</div>
+			</header>
+			<main class="page">
+				<section class="page__hero hero">
+					<div class="hero__container">
+						<h1 class="hero__title title title--main">Full screen block</h1>
+					</div>
+					<img class="hero__background" src="../img/hero/hero_bg.avif" alt="A group of oranges, some whole and some sliced, with green leaves on a white background.">
+				</section>
+				<section class="page__dogs dogs">
+					<div class="dogs__container">
+						<h2 class="dogs__title title title--medium">All Dogs</h2>
+                        <div class="loading" id="loading"></div>
+                        <ul class="dog__items"></ul>
+						<div id="load-trigger"></div>
+					</div>
+				</section>
+			</main>
+			<footer class="footer">
+				<div class="footer__container">
+				</div>
+			</footer>
+		</div>
+        <script type="module" src="../javascript/task1.js"></script>
+    </body>
+</html>
